@@ -28,6 +28,16 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/categorias/lista', (req, res) => {
+  db.all('SELECT DISTINCT categoria FROM produtos ORDER BY categoria', (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows.map(row => row.categoria));
+  });
+});
+
 router.get('/:id', (req, res) => {
   const { id } = req.params;
   
@@ -115,16 +125,6 @@ router.delete('/:id', (req, res) => {
       return;
     }
     res.json({ message: 'Produto excluído com sucesso' });
-  });
-});
-
-router.get('/categorias/lista', (req, res) => {
-  db.all('SELECT DISTINCT categoria FROM produtos ORDER BY categoria', (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    res.json(rows.map(row => row.categoria));
   });
 });
 

@@ -1,5 +1,3 @@
-const db = require('../database/db');
-
 beforeAll((done) => {
   console.log('Setting up test database...');
   done();
@@ -7,12 +5,7 @@ beforeAll((done) => {
 
 afterAll((done) => {
   console.log('Cleaning up test database...');
-  db.close((err) => {
-    if (err) {
-      console.error('Error closing database:', err);
-    }
-    done();
-  });
+  done();
 });
 
 process.on('unhandledRejection', (reason, promise) => {

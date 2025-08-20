@@ -19,7 +19,7 @@ const tiposTransacao = {
 };
 
 function parsearLinhaCNAB(linha) {
-  if (linha.length < 81) return null;
+  if (linha.length < 80) return null;
 
   const tipo = parseInt(linha.substring(0, 1));
   const data = linha.substring(1, 9);
@@ -28,7 +28,7 @@ function parsearLinhaCNAB(linha) {
   const cartao = linha.substring(30, 42);
   const hora = linha.substring(42, 48);
   const donoLoja = linha.substring(48, 62).trim();
-  const nomeLoja = linha.substring(62, 81).trim();
+  const nomeLoja = linha.substring(62, 80).trim();
 
   const tipoInfo = tiposTransacao[tipo];
   if (!tipoInfo) return null;
