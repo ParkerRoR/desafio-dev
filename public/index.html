@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema CNAB - Produtos de Mercado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema CNAB - Produtos de Mercado</h1>
+            <p>Gerenciamento de produtos e processamento de arquivos CNAB</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" onclick="showTab('produtos')">Produtos</button>
+            <button class="tab-button" onclick="showTab('cnab')">Upload CNAB</button>
+            <button class="tab-button" onclick="showTab('relatorios')">Relatórios</button>
+        </nav>
+
+        <div id="produtos" class="tab-content active">
+            <div class="section-header">
+                <h2>Gerenciamento de Produtos</h2>
+                <button class="btn btn-primary" onclick="showProductForm()">Novo Produto</button>
+            </div>
+
+            <div class="filters">
+                <input type="text" id="searchInput" placeholder="Buscar produtos..." onkeyup="filterProducts()">
+                <select id="categoryFilter" onchange="filterProducts()">
+                    <option value="">Todas as categorias</option>
+                </select>
+            </div>
+
+            <div id="productForm" class="form-container" style="display: none;">
+                <h3 id="formTitle">Novo Produto</h3>
+                <form id="productFormElement">
+                    <input type="hidden" id="productId">
+                    <div class="form-group">
+                        <label for="nome">Nome *</label>
+                        <input type="text" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoria *</label>
+                        <input type="text" id="categoria" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="preco">Preço *</label>
+                        <input type="number" id="preco" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estoque">Estoque</label>
+                        <input type="number" id="estoque" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="codigo_barras">Código de Barras</label>
+                        <input type="text" id="codigo_barras">
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideProductForm()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="productsTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Código de Barras</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="cnab" class="tab-content">
+            <div class="section-header">
+                <h2>Upload de Arquivo CNAB</h2>
+            </div>
+
+            <div class="upload-container">
+                <form id="cnabForm" enctype="multipart/form-data">
+                    <div class="file-upload">
+                        <input type="file" id="cnabFile" accept=".txt,.cnab" required>
+                        <label for="cnabFile" class="file-label">
+                            <span>Escolher arquivo CNAB</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Processar Arquivo</button>
+                </form>
+            </div>
+
+            <div id="cnabResult" class="result-container" style="display: none;">
+            </div>
+
+            <div id="transactionsTable" style="display: none;">
+                <h3>Transações Processadas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Data</th>
+                            <th>Valor</th>
+                            <th>Loja</th>
+                            <th>Dono</th>
+                            <th>Natureza</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="relatorios" class="tab-content">
+            <div class="section-header">
+                <h2>Relatórios por Loja</h2>
+                <button class="btn btn-primary" onclick="loadStoreReports()">Atualizar</button>
+            </div>
+
+            <div id="storeReportsTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome da Loja</th>
+                            <th>Dono da Loja</th>
+                            <th>Total de Transações</th>
+                            <th>Saldo em Conta</th>
+                        </tr>
+                    </thead>
+                    <tbody id="storeReportsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
